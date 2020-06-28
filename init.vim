@@ -267,3 +267,32 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
+
+let g:coc_global_extensions = [
+  \ 'coc-css',
+  \ 'coc-eslint',
+  \ 'coc-explorer',
+  \ 'coc-flutter',
+  \ 'coc-git',
+  \ 'coc-gitignore',
+  \ 'coc-html',
+  \ 'coc-json',
+  \ 'coc-lists',
+  \ 'coc-prettier',
+  \ 'coc-pyright',
+  \ 'coc-python',
+  \ 'coc-snippets',
+  \ 'coc-sourcekit',
+  \ 'coc-stylelint',
+  \ 'coc-syntax',
+  \ 'coc-tasks',
+  \ 'coc-todolist',
+  \ 'coc-translator',
+  \ 'coc-vimlsp',
+  \ 'coc-yaml',
+  \ 'coc-java',
+  \ 'coc-go',
+  \ 'coc-css',
+  \ 'coc-cmake',
+  \ 'coc-clangd',
+  \ 'coc-yank']
