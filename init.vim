@@ -7,6 +7,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ctrlpvim/ctrlp/vim' "fuzzy find file"
 Plug 'dracula/vim', { 'name': 'dracula' }
 Plug 'scrooloose/nerdtree'
+Plug 'chxuan/change-colorscheme'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -41,7 +42,7 @@ filetype on
 filetype plugin on
 set showcmd
 set laststatus=2
-set noexpandtab
+set expandtab
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -166,22 +167,6 @@ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
 let g:ctrlp_map = ''
 let g:ctrlp_cmd = 'CtrlP'
 
-" ===
-" === OmniSharp
-" ===
-"let g:OmniSharp_typeLookupInPreview = 1
-"let g:omnicomplete_fetch_full_documentation = 1
-
-"let g:OmniSharp_server_use_mono = 1
-"let g:OmniSharp_server_stdio = 1
-"let g:OmniSharp_highlight_types = 2
-"let g:OmniSharp_selector_ui = 'ctrlp'
-
-"autocmd Filetype cs nnoremap <buffer> gd :OmniSharpPreviewDefinition<CR>
-"autocmd Filetype cs nnoremap <buffer> gr :OmniSharpFindUsages<CR>
-"autocmd Filetype cs nnoremap <buffer> gy :OmniSharpTypeLookup<CR>
-"autocmd Filetype cs nnoremap <buffer> ga :OmniSharpGetCodeActions<CR>
-"autocmd Filetype cs nnoremap <buffer> <LEADER>rn :OmniSharpRename<CR><C-N>:res +5<CR>
 " Useful commands
 nnoremap <silent> <space>y :<C-u>CocList -A --normal yank<cr>
 nmap <silent> gd <Plug>(coc-definition)
@@ -211,3 +196,74 @@ let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_guide_size = 1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
+
+"Mode Settings
+
+let &t_SI.="\e[5 q" "SI = INSERT mode
+let &t_SR.="\e[4 q" "SR = REPLACE mode
+let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
+
+" Compile function
+noremap <F5> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+	exec "w"
+	if &filetype == 'c'
+		exec "!g++ % -o %<"
+		exec "!time ./%<"
+	elseif &filetype == 'cpp'
+		set splitbelow
+		exec "!g++ -std=c++11 % -Wall -o %<"
+		:sp
+		:res -15
+		:term ./%<
+	elseif &filetype == 'java'
+		exec "!javac %"
+		exec "!time java %<"
+	elseif &filetype == 'sh'
+		:!time bash %
+	elseif &filetype == 'python'
+		set splitbelow
+		:sp
+		:term python3 %
+	elseif &filetype == 'html'
+		silent! exec "!".g:mkdp_browser." % &"
+	elseif &filetype == 'markdown'
+		exec "MarkdownPreview"
+	elseif &filetype == 'tex'
+		silent! exec "VimtexStop"
+		silent! exec "VimtexCompile"
+	elseif &filetype == 'dart'
+		exec "CocCommand flutter.run -d ".g:flutter_default_device
+		CocCommand flutter.dev.openDevLog
+	elseif &filetype == 'javascript'
+		set splitbelow
+		:sp
+		:term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
+	elseif &filetype == 'go'
+		set splitbelow
+		:sp
+		:term go run .
+	endif
+endfunc
+
+" change-colorscheme
+nnoremap <silent> <F9> :PreviousColorScheme<cr>
+inoremap <silent> <F9> <esc> :PreviousColorScheme<cr>
+nnoremap <silent> <F10> :NextColorScheme<cr>
+inoremap <silent> <F10> <esc> :NextColorScheme<cr>
+nnoremap <silent> <F11> :RandomColorScheme<cr>
+inoremap <silent> <F11> <esc> :RandomColorScheme<cr>
+nnoremap <silent> <F12> :ShowColorScheme<cr>
+inoremap <silent> <F12> <esc> :ShowColorScheme<cr>
+
+" airline
+" let g:airline_theme="onedark"
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''

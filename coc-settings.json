@@ -1,5 +1,5 @@
 {
-        "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "javascript", "json", "javascriptreact", "cc", "c", "cpp", "java", "python", "golang"],
+        "coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "javascript", "json", "javascriptreact", "cc", "c", "cpp", "java", "python", "golang", "yacc", "lex"],
 	"languageserver": {
 		"clangd": {
 			"command": "clangd",
