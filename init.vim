@@ -11,7 +11,7 @@ Plug 'chxuan/change-colorscheme'
 Plug 'scrooloose/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+"Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'RRethy/vim-illuminate'
 Plug 'theniceboy/vim-deus'
 Plug 'junegunn/fzf.vim'
@@ -283,7 +283,6 @@ let g:coc_global_extensions = [
   \ 'coc-python',
   \ 'coc-snippets',
   \ 'coc-sourcekit',
-  \ 'coc-stylelint',
   \ 'coc-syntax',
   \ 'coc-tasks',
   \ 'coc-todolist',
