@@ -3,7 +3,9 @@
     "coc.preferences.formatOnType": true,
     "coc.preferences.formatOnSaveFiletypes": [
         "css",
+        "golang",
         "markdown",
+        "go",
         "javascript",
         "json",
         "javascriptreact",
