@@ -1,43 +1,57 @@
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'airblade/vim-gitgutter'
-Plug 'mhinz/vim-startify' "startify
+Plug 'RRethy/vim-illuminate'
+
+" functions
+Plug 'liuchengxu/vista.vim'
 Plug 'neoclide/coc.nvim', {'branch' : 'release'}
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-"Plug 'nathanaelkane/vim-indent-guides'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'ctrlpvim/ctrlp.vim' "fuzzy find file"
-" Plug 'dracula/vim', { 'name': 'dracula' }
-Plug 'scrooloose/nerdtree'
-Plug 'chxuan/change-colorscheme'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'preservim/nerdcommenter'
-Plug 'RRethy/vim-illuminate'
-Plug 'theniceboy/vim-deus'
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
+Plug 'preservim/nerdcommenter'
+Plug 'godlygeek/tabular' " ga, or :Tabularize <regex> to align
+
+"file
+Plug 'mhinz/vim-startify' "startify
+Plug 'ctrlpvim/ctrlp.vim' "fuzzy find file"
 Plug 'junegunn/fzf.vim'
-Plug 'liuchengxu/vista.vim'
+"Plug 'scrooloose/nerdtree'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'psliwka/vim-smoothie'
+Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
 Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] }
-Plug 'jiangmiao/auto-pairs'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" dress up
+" Treesitter
+Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'airblade/vim-gitgutter'
+Plug 'mg979/vim-xtabline'
+Plug 'theniceboy/vim-deus'
 Plug 'ryanoasis/vim-devicons'
-Plug 'godlygeek/tabular' " ga, or :Tabularize <regex> to align
 Plug 'ojroques/vim-scrollstatus'
+Plug 'theniceboy/eleline.vim'
+Plug 'luochen1990/rainbow'
+Plug 'bpietravalle/vim-bolt'
+Plug 'bling/vim-bufferline'
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " prettier
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
+	"command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
 
 filetype on
 filetype plugin on
 set syntax=on
 set autoindent
+set hidden
 set nu
 set encoding=utf-8
 set showcmd
@@ -76,24 +90,50 @@ set autowrite
 syntax enable
 
 " dress up vim
+" ===
+" === xtabline
+" ===
+let g:xtabline_settings = {}
+let g:xtabline_settings.enable_mappings = 0
+let g:xtabline_settings.tabline_modes = ['tabs', 'buffers']
+let g:xtabline_settings.enable_persistance = 0
+let g:Hexokinase_highlighters = ['backgroundfull']
+
+" ===
+" === nvim-treesitter
+" ===
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+	ensure_installed = {typescript},     -- one of "all", "language", or a list of languages
+	highlight = {
+enable = true,              -- false will disable the whole extension
+},
+}
+EOF
+
+" ===
+" === rainbow
+" ===
+let g:rainbow_active = 1
+
 set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 color deus
 hi NonText ctermfg=gray guifg=grey10
 
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]	=~ '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]	=~ '\s'
 endfunction
 inoremap <silent><expr> <TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ coc#refresh()
+			\ pumvisible() ? "\<C-n>" :
+			\ <SID>check_back_space() ? "\<TAB>" :
+			\ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+	let col = col('.') - 1
+	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 inoremap <silent><expr> <c-space> coc#refresh()
 inoremap <silent><expr> <c-o> coc#refresh()
@@ -114,9 +154,10 @@ let g:gitgutter_sign_removed = ''
 let g:gitgutter_sign_removed_first_line = '▔'
 let g:gitgutter_sign_modified_removed = '▒'
 
+
 " vim-buffer
-" nnoremap <silent> <c-p> :bp<cr>
-" nnoremap <silent> <c-n> :bn<cr>
+"nnoremap <silent> <c-p> :bp<cr>
+nnoremap <silent> <c-n> :bn<cr>
 
 
 let g:mapleader=" "
@@ -127,10 +168,10 @@ set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
+	" Recently vim can merge signcolumn and number column into one
+	set signcolumn=number
 else
-    set signcolumn=yes
+	set signcolumn=yes
 endif
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
@@ -139,7 +180,7 @@ nmap <leader>f  <Plug>(coc-format-selected)
 "vista.vim
 "
 function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
+	return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 
 " How each level is indented and what to prepend.
@@ -156,24 +197,24 @@ let g:vista_default_executive = 'ctags'
 " instead of the default one for these filetypes when using `:Vista` without
 " specifying the executive.
 "let g:vista_executive_for = {
-  "\ 'cpp': 'nvim_lsp',
-  "\ 'php': 'nvim_lsp',
-  "\ }
+			"\ 'cpp': 'nvim_lsp',
+			"\ 'php': 'nvim_lsp',
+			"\ }
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 1
 
 " The default icons can't be suitable for all the filetypes, you can extend it as you wish.
 let g:vista#renderer#icons = {
-\   "function": "\uf794",
-\   "variable": "\uf71b",
-\  }
+			\   "function": "\uf794",
+			\   "variable": "\uf71b",
+			\  }
 
 " Declare the command including the executable and options used to generate ctags output
 " for some certain filetypes.The file path will be appened to your custom command.
 " For example:
 let g:vista_ctags_cmd = {
-      \ 'haskell': 'hasktags -x -o - -c',
-      \ }
+			\ 'haskell': 'hasktags -x -o - -c',
+			\ }
 
 " To enable fzf's preview window set g:vista_fzf_preview.
 " The elements of g:vista_fzf_preview will be passed as arguments to fzf#vim#with_preview()
@@ -188,15 +229,15 @@ set statusline+=%{NearestMethodOrFunction()}
 " you can add the following line to your vimrc
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'readonly', 'filename', 'modified', 'method' ] ]
-      \ },
-      \ 'component_function': {
-      \   'method': 'NearestMethodOrFunction'
-      \ },
-      \ }
+			\ 'colorscheme': 'wombat',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'readonly', 'filename', 'modified', 'method' ] ]
+			\ },
+			\ 'component_function': {
+			\   'method': 'NearestMethodOrFunction'
+			\ },
+			\ }
 
 
 " 打开文件自动定位到最后编辑的位置
@@ -210,17 +251,17 @@ let g:NERDTreeShowLineNumbers=1
 let g:neocomplcache_enable_at_startup = 1
 " nerdtree-git-plugin
 let g:NERDTreeGitStatusIndicatorMapCustom = {
-            \ "Modified"  : "✹",
-            \ "Staged"    : "✚",
-            \ "Untracked" : "✭",
-            \ "Renamed"   : "➜",
-            \ "Unmerged"  : "═",
-            \ "Deleted"   : "✖",
-            \ "Dirty"     : "✗",
-            \ "Clean"     : "✔︎",
-            \ 'Ignored'   : '☒',
-            \ "Unknown"   : "?"
-            \ }
+			\ "Modified"  : "✹",
+			\ "Staged"    : "✚",
+			\ "Untracked" : "✭",
+			\ "Renamed"   : "➜",
+			\ "Unmerged"  : "═",
+			\ "Deleted"   : "✖",
+			\ "Dirty"     : "✗",
+			\ "Clean"     : "✔︎",
+			\ 'Ignored'   : '☒',
+			\ "Unknown"   : "?"
+			\ }
 
 " ===
 " === FZF
@@ -229,8 +270,8 @@ set rtp+=/usr/local/opt/fzf
 set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
 set rtp+=/home/david/.linuxbrew/opt/fzf
 noremap <C-p> :Files<CR>
-" noremap <C-f> :Rg<CR>
-noremap <C-f> :History<CR>
+noremap <C-f> :Rg<CR>
+noremap <C-h> :History<CR>
 noremap <C-t> :BTags<CR>
 noremap <C-l> :Lines<CR>
 noremap <C-b> :Buffers<CR>
@@ -240,21 +281,21 @@ let g:fzf_preview_window = 'right:60%'
 let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
 
 function! s:list_buffers()
-    redir => list
-    silent ls
-    redir END
-    return split(list, "\n")
+	redir => list
+	silent ls
+	redir END
+	return split(list, "\n")
 endfunction
 
 function! s:delete_buffers(lines)
-    execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+	execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
 
 command! BD call fzf#run(fzf#wrap({
-            \ 'source': s:list_buffers(),
-            \ 'sink*': { lines -> s:delete_buffers(lines) },
-            \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-            \ }))
+			\ 'source': s:list_buffers(),
+			\ 'sink*': { lines -> s:delete_buffers(lines) },
+			\ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+			\ }))
 
 noremap <c-d> :BD<CR>
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
@@ -305,44 +346,44 @@ let &t_EI.="\e[1 q" "EI = NORMAL mode (ELSE)
 " Compile function
 noremap <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
-    exec "w"
-    if &filetype == 'c'
-        exec "!g++ % -o %<"
-        exec "!time ./%<"
-    elseif &filetype == 'cpp'
-        set splitbelow
-        exec "!g++ -std=c++11 % -Wall -o %<"
-        :sp
-        :res -15
-        :term ./%<
-    elseif &filetype == 'java'
-        exec "!javac %"
-        exec "!time java %<"
-    elseif &filetype == 'sh'
-        :!time bash %
-    elseif &filetype == 'python'
-        set splitbelow
-        :sp
-        :term python3 %
-    elseif &filetype == 'html'
-        silent! exec "!".g:mkdp_browser." % &"
-    elseif &filetype == 'markdown'
-        exec "MarkdownPreview"
-    elseif &filetype == 'tex'
-        silent! exec "VimtexStop"
-        silent! exec "VimtexCompile"
-    elseif &filetype == 'dart'
-        exec "CocCommand flutter.run -d ".g:flutter_default_device
-        CocCommand flutter.dev.openDevLog
-    elseif &filetype == 'javascript'
-        set splitbelow
-        :sp
-        :term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
-    elseif &filetype == 'go'
-        set splitbelow
-        :sp
-        :term go run .
-    endif
+	exec "w"
+	if &filetype == 'c'
+		exec "!g++ % -o %<"
+		exec "!time ./%<"
+	elseif &filetype == 'cpp'
+		set splitbelow
+		exec "!g++ -std=c++11 % -Wall -o %<"
+		:sp
+		:res -15
+		:term ./%<
+	elseif &filetype == 'java'
+		exec "!javac %"
+		exec "!time java %<"
+	elseif &filetype == 'sh'
+		:!time bash %
+	elseif &filetype == 'python'
+		set splitbelow
+		:sp
+		:term python3 %
+	elseif &filetype == 'html'
+		silent! exec "!".g:mkdp_browser." % &"
+	elseif &filetype == 'markdown'
+		exec "MarkdownPreview"
+	elseif &filetype == 'tex'
+		silent! exec "VimtexStop"
+		silent! exec "VimtexCompile"
+	elseif &filetype == 'dart'
+		exec "CocCommand flutter.run -d ".g:flutter_default_device
+		CocCommand flutter.dev.openDevLog
+	elseif &filetype == 'javascript'
+		set splitbelow
+		:sp
+		:term export DEBUG="INFO,ERROR,WARNING"; node --trace-warnings .
+	elseif &filetype == 'go'
+		set splitbelow
+		:sp
+		:term go run .
+	endif
 endfunc
 
 " change-colorscheme
@@ -357,8 +398,8 @@ inoremap <silent> <F12> <esc> :ShowColorScheme<cr>
 
 " airline
 " let g:airline_theme="onedark"
-let g:airline_powerline_fonts = 0
-let g:airline_section_x = '%{ScrollStatus()}'
+let g:airline_powerline_fonts = 1
+"let g:airline_section_x = '%{ScrollStatus()}'
 let g:airline#extensions#tabline#enabled = 1
 "if !exists('g:airline_symbols')
 "let g:airline_symbols = {}
@@ -368,25 +409,27 @@ let g:airline#extensions#tabline#enabled = 1
 " let g:airline_right_sep = ''
 " let g:airline_right_alt_sep = ''
 
+
 let g:coc_global_extensions = [
-            \ 'coc-css',
-            \ 'coc-eslint',
-            \ 'coc-explorer',
-            \ 'coc-gitignore',
-            \ 'coc-html',
-            \ 'coc-json',
-            \ 'coc-lists',
-            \ 'coc-prettier',
-            \ 'coc-pyright',
-            \ 'coc-python',
-            \ 'coc-snippets',
-            \ 'coc-translator',
-            \ 'coc-vimlsp',
-            \ 'coc-yaml',
-            \ 'coc-java',
-            \ 'coc-go',
-            \ 'coc-css',
-            \ 'coc-cmake',
-            \ 'coc-clangd',
-            \ 'coc-yank']
+			\ 'coc-css',
+			\ 'coc-eslint',
+			\ 'coc-explorer',
+			\ 'coc-gitignore',
+			\ 'coc-pairs',
+			\ 'coc-html',
+			\ 'coc-json',
+			\ 'coc-lists',
+			\ 'coc-prettier',
+			\ 'coc-pyright',
+			\ 'coc-python',
+			\ 'coc-snippets',
+			\ 'coc-translator',
+			\ 'coc-vimlsp',
+			\ 'coc-yaml',
+			\ 'coc-java',
+			\ 'coc-go',
+			\ 'coc-css',
+			\ 'coc-cmake',
+			\ 'coc-clangd',
+			\ 'coc-yank']
 
