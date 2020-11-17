@@ -6,7 +6,8 @@ Plug 'liuchengxu/vista.vim'
 Plug 'neoclide/coc.nvim', {'branch' : 'release'}
 Plug 'OmniSharp/omnisharp-vim'
 Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'}
-Plug 'terryma/vim-multiple-cursors'
+Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+"Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'preservim/nerdcommenter'
 Plug 'godlygeek/tabular' " ga, or :Tabularize <regex> to align
@@ -89,6 +90,27 @@ set autoread
 set autowrite
 syntax enable
 
+" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
+noremap sj :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap sk :set splitbelow<CR>:split<CR>
+noremap sl :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap sh :set splitright<CR>:vsplit<CR>
+
+" Resize splits with arrow keys
+noremap <c-up> :res +5<CR>
+noremap <c-down> :res -5<CR>
+noremap <c-left> :vertical resize-5<CR>
+noremap <c-right> :vertical resize+5<CR>
+
+" ===
+" === Tab management
+" ===
+" Create a new tab with tu
+noremap tu :tabe<CR>
+" Move around tabs with tn and ti
+noremap tp :-tabnext<CR>
+noremap tn :tabnext<CR>
+
 " dress up vim
 " ===
 " === xtabline
@@ -98,6 +120,28 @@ let g:xtabline_settings.enable_mappings = 0
 let g:xtabline_settings.tabline_modes = ['tabs', 'buffers']
 let g:xtabline_settings.enable_persistance = 0
 let g:Hexokinase_highlighters = ['backgroundfull']
+
+" ===
+" === vim-visual-multi
+" ===
+"let g:VM_theme             = 'iceblue'
+"let g:VM_default_mappings = 0
+let g:VM_leader                     = {'default': ',', 'visual': ',', 'buffer': ','}
+let g:VM_maps                       = {}
+"let g:VM_custom_motions             = {'n': 'h', 'i': 'l', 'u': 'k', 'e': 'j', 'N': '0', 'I': '$', 'h': 'e'}
+let g:VM_maps['n']                  = 'k'
+let g:VM_maps['N']                  = 'K'
+let g:VM_maps['Find Under']         = '<C-n>'
+let g:VM_maps['Find Subword Under'] = '<C-n>'
+let g:VM_maps['Find Next']          = ''
+let g:VM_maps['Find Prev']          = ''
+let g:VM_maps['Remove Region']      = 'q'
+let g:VM_maps['Skip Region']        = '<c-s>'
+let g:VM_maps["Undo"]               = 'l'
+let g:VM_maps["Redo"]               = '<C-r>'
+let g:VM_maps["Add Cursor Down"]               = '<c-j>'
+let g:VM_maps["Add Cursor Up"]               = '<c-k>'
+
 
 " ===
 " === nvim-treesitter
@@ -157,7 +201,7 @@ let g:gitgutter_sign_modified_removed = '▒'
 
 " vim-buffer
 "nnoremap <silent> <c-p> :bp<cr>
-nnoremap <silent> <c-n> :bn<cr>
+nnoremap <silent> bn :bn<cr>
 
 
 let g:mapleader=" "
@@ -179,6 +223,10 @@ nmap <leader>f  <Plug>(coc-format-selected)
 
 "vista.vim
 "
+"
+nmap <F8> :Vista!!<CR>
+
+
 function! NearestMethodOrFunction() abort
 	return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
@@ -314,20 +362,19 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 nmap tt :CocCommand explorer<CR>
-nmap <F8> :Vista<CR>
 
 " ==
 " == vim-multiple-cursor
 " ==
-let g:multi_cursor_use_default_mapping = 0
-let g:multi_cursor_start_word_key = '<c-k>'
-let g:multi_cursor_select_all_word_key = '<a-k>'
-let g:multi_cursor_start_key = 'g<c-k>'
-let g:multi_cursor_select_all_key = 'g<a-k>'
-let g:multi_cursor_next_key = '<c-k>'
-let g:multi_cursor_prev_key = '<c-p>'
-let g:multi_cursor_skip_key = '<C-s>'
-let g:multi_cursor_quit_key = '<Esc>'
+"let g:multi_cursor_use_default_mapping = 0
+"let g:multi_cursor_start_word_key = '<c-k>'
+"let g:multi_cursor_select_all_word_key = '<a-k>'
+"let g:multi_cursor_start_key = 'g<c-k>'
+"let g:multi_cursor_select_all_key = 'g<a-k>'
+"let g:multi_cursor_next_key = '<c-k>'
+"let g:multi_cursor_prev_key = '<c-p>'
+"let g:multi_cursor_skip_key = '<C-s>'
+"let g:multi_cursor_quit_key = '<Esc>'
 
 " ==
 " == vim-indent-guide
@@ -412,6 +459,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 let g:coc_global_extensions = [
 			\ 'coc-css',
+			\ 'coc-diagnostic',
 			\ 'coc-eslint',
 			\ 'coc-explorer',
 			\ 'coc-gitignore',
