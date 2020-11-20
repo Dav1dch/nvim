@@ -95,7 +95,7 @@
 		"dd": "cutFile",
 		"pp": "pasteFile",
 		"dD": "deleteForever",
-		"a": "addFile",
+		"T": "addFile",
 		"M": "addDirectory",
 		"rn": "rename",
 		".": "toggleHidden",
