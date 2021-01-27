@@ -458,7 +458,6 @@ let g:airline#extensions#tabline#enabled = 1
 
 
 let g:coc_global_extensions = [
-			\ 'coc-css',
 			\ 'coc-diagnostic',
 			\ 'coc-eslint',
 			\ 'coc-explorer',
