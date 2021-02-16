@@ -16,9 +16,9 @@ Plug 'godlygeek/tabular' " ga, or :Tabularize <regex> to align
 Plug 'mhinz/vim-startify' "startify
 Plug 'ctrlpvim/ctrlp.vim' "fuzzy find file"
 Plug 'junegunn/fzf.vim'
-"Plug 'scrooloose/nerdtree'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
-"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'psliwka/vim-smoothie'
 Plug 'gcmt/wildfire.vim' " in Visual mode, type k' to select all text in '', or type k) k] k} kp
 
@@ -293,7 +293,7 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "
 
 
 "NERDTree shotcut
-nmap <F2> :NERDTree <CR>
+nmap <F2> :NERDTreeToggle <CR>
 let g:NERDTreeWinSize=30
 let g:NERDTreeShowLineNumbers=1
 let g:neocomplcache_enable_at_startup = 1
