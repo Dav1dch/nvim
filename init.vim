@@ -11,7 +11,6 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'tpope/vim-surround' " type yskw' to wrap the word with '' or type cs'` to change 'word' to `word`
 Plug 'preservim/nerdcommenter'
 Plug 'godlygeek/tabular' " ga, or :Tabularize <regex> to align
-
 "file
 Plug 'mhinz/vim-startify' "startify
 Plug 'ctrlpvim/ctrlp.vim' "fuzzy find file"
@@ -29,19 +28,24 @@ Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] 
 
 " dress up
 " Treesitter
+"
+Plug 'sheerun/vim-polyglot'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'adrian5/oceanic-next-vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'airblade/vim-gitgutter'
 Plug 'mg979/vim-xtabline'
 Plug 'theniceboy/vim-deus'
 Plug 'ryanoasis/vim-devicons'
-Plug 'ojroques/vim-scrollstatus'
-Plug 'theniceboy/eleline.vim'
+"Plug 'ojroques/vim-scrollstatus'
+"Plug 'theniceboy/eleline.vim'
 Plug 'luochen1990/rainbow'
 Plug 'bpietravalle/vim-bolt'
 Plug 'bling/vim-bufferline'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 " prettier
@@ -89,6 +93,12 @@ set noswapfile
 set autoread
 set autowrite
 syntax enable
+
+let g:oceanic_for_polyglot=1
+let g:oceanic_italic_comments=1
+let g:oceanic_gutter_like_bg=0
+let g:oceanic_bold=1
+
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 noremap sj :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
@@ -162,7 +172,8 @@ let g:rainbow_active = 1
 
 set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-color deus
+"colorscheme palenight
+colorscheme deus
 hi NonText ctermfg=gray guifg=grey10
 
 function! s:check_back_space() abort
@@ -173,8 +184,9 @@ inoremap <silent><expr> <TAB>
 			\ pumvisible() ? "\<C-n>" :
 			\ <SID>check_back_space() ? "\<TAB>" :
 			\ coc#refresh()
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
@@ -202,6 +214,8 @@ let g:gitgutter_sign_modified_removed = '▒'
 " vim-buffer
 "nnoremap <silent> <c-p> :bp<cr>
 nnoremap <silent> bn :bn<cr>
+nnoremap <silent> <a-TAB> :bn<cr>
+"nnoremap <a-W> :bp|bd<cr>
 
 
 let g:mapleader=" "
@@ -293,7 +307,7 @@ autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "
 
 
 "NERDTree shotcut
-nmap <F2> :NERDTreeToggle <CR>
+nmap tt :NERDTreeToggle <CR>
 let g:NERDTreeWinSize=30
 let g:NERDTreeShowLineNumbers=1
 let g:neocomplcache_enable_at_startup = 1
@@ -361,7 +375,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
-nmap tt :CocCommand explorer<CR>
+"nmap tt :CocCommand explorer<CR>
 
 " ==
 " == vim-multiple-cursor
@@ -444,10 +458,12 @@ nnoremap <silent> <F12> :ShowColorScheme<cr>
 inoremap <silent> <F12> <esc> :ShowColorScheme<cr>
 
 " airline
-" let g:airline_theme="onedark"
+"let g:airline_theme="deus"
+let g:airline_theme="base16_oceanicnext"
+"AirlineTheme base16_oceanicnext
 let g:airline_powerline_fonts = 1
 "let g:airline_section_x = '%{ScrollStatus()}'
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 "if !exists('g:airline_symbols')
 "let g:airline_symbols = {}
 "endif
