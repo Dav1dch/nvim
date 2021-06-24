@@ -191,8 +191,8 @@ function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <silent><expr> <c-o> coc#refresh()
+"inoremap <silent><expr> <c-space> coc#refresh()
+"inoremap <silent><expr> <c-o> coc#refresh()
 
 
 " ==
@@ -218,22 +218,34 @@ nnoremap <silent> <a-TAB> :bn<cr>
 "nnoremap <a-W> :bp|bd<cr>
 
 
-let g:mapleader=" "
+let g:mapleader="`"
 set updatetime=100
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 if has("patch-8.1.1564")
 	" Recently vim can merge signcolumn and number column into one
 	set signcolumn=number
 else
 	set signcolumn=yes
 endif
+" coc-translator
+nmap ts <Plug>(coc-translator-p)
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>aw  <Plug>(coc-codeaction-selected)w
+
+
 " Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
 
 "vista.vim
 "
@@ -329,10 +341,10 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 " === FZF
 " ===
 set rtp+=/usr/local/opt/fzf
-set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
-set rtp+=/home/david/.linuxbrew/opt/fzf
+"set rtp+=/home/linuxbrew/.linuxbrew/opt/fzf
+"set rtp+=/home/david/.linuxbrew/opt/fzf
 noremap <C-p> :Files<CR>
-noremap <C-f> :Rg<CR>
+noremap <C-f> :Ag<CR>
 noremap <C-h> :History<CR>
 noremap <C-t> :BTags<CR>
 noremap <C-l> :Lines<CR>
@@ -474,7 +486,9 @@ let g:airline_powerline_fonts = 1
 
 
 let g:coc_global_extensions = [
+			\ 'coc-actions',
 			\ 'coc-diagnostic',
+			\ 'coc-tsserver', 
 			\ 'coc-eslint',
 			\ 'coc-explorer',
 			\ 'coc-gitignore',
@@ -493,6 +507,7 @@ let g:coc_global_extensions = [
 			\ 'coc-go',
 			\ 'coc-css',
 			\ 'coc-cmake',
+			\ 'coc-import-cost',
 			\ 'coc-clangd',
 			\ 'coc-yank']
 
