@@ -30,6 +30,7 @@ Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug'] 
 " Treesitter
 "
 Plug 'sheerun/vim-polyglot'
+Plug 'wojciechkepka/vim-github-dark'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'adrian5/oceanic-next-vim'
 Plug 'dracula/vim', { 'as': 'dracula' }
@@ -173,7 +174,9 @@ let g:rainbow_active = 1
 set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "colorscheme palenight
-colorscheme deus
+let g:gh_color = "soft"
+colorscheme ghdark 
+
 hi NonText ctermfg=gray guifg=grey10
 
 function! s:check_back_space() abort
