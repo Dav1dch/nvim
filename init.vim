@@ -175,7 +175,8 @@ set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 "colorscheme palenight
 let g:gh_color = "soft"
-colorscheme ghdark 
+"colorscheme ghdark 
+colorscheme  deus
 
 hi NonText ctermfg=gray guifg=grey10
 
