@@ -94,7 +94,7 @@
 	"explorer.file.showHiddenFiles": true,
 	"explorer.icon.enableNerdfont": true,
 	"explorer.file.column.git.showIgnored": true,
-	"explorer.keyMappingMode": "none",
+//	"explorer.keyMappingMode": "none",
 	"explorer.buffer.showHiddenBuffers": false,
 	"explorer.keyMappings": {
 		"u": "nodePrev",
@@ -140,7 +140,7 @@
 		">>": "gitUnstage"
 	},
 
-	"prettier.useTabs": 1,
+	"prettier.useTabs": true,
 	"coc.preferences.formatOnType": true,
 	"coc.preferences.formatOnSaveFiletypes": [
 		"css",
