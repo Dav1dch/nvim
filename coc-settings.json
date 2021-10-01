@@ -1,23 +1,19 @@
 {
-	"clangd.enabled":true,
-	  // File extensions to be parsed by the Typescript parser
-  "importCost.typescriptExtensions": [
-    "\\.tsx?$"
-  ],
+	"clangd.enabled": true,
+	// File extensions to be parsed by the Typescript parser
+	"importCost.typescriptExtensions": ["\\.tsx?$"],
 
-  // File extensions to be parsed by the Javascript parser
-  "importCost.javascriptExtensions": [
-    "\\.jsx?$"
-  ],
+	// File extensions to be parsed by the Javascript parser
+	"importCost.javascriptExtensions": ["\\.jsx?$"],
 
-  // Which bundle size to display
-  "importCost.bundleSizeDecoration": "both",
+	// Which bundle size to display
+	"importCost.bundleSizeDecoration": "both",
 
-  // Display the 'calculating' decoration
-  "importCost.showCalculatingDecoration": true,
+	// Display the 'calculating' decoration
+	"importCost.showCalculatingDecoration": true,
 
-  // Print debug messages in output channel
-  "importCost.debug": false,
+	// Print debug messages in output channel
+	"importCost.debug": false,
 	"codeLens.enable": true,
 	"coc.preferences.hoverTarget": "preview",
 	"coc.preferences.enableFloatHighlight": true,
@@ -27,7 +23,7 @@
 	"coc.source.around.firstMatch": false,
 	"coc.source.buffer.firstMatch": false,
 	"coc.source.syntax.firstMatch": false,
-	"pairs.enableCharacters":["{", "[", "'", "\"", "("],
+	"pairs.enableCharacters": ["{", "[", "'", "\"", "("],
 	"diagnostic.signOffset": 1,
 	"diagnostic.errorSign": "\uf467",
 	"diagnostic.warningSign": "\uf071",
@@ -40,8 +36,8 @@
 	"diagnostic.virtualTextPrefix": " ❯❯❯ ",
 	"diagnostic.virtualText": true,
 	"suggest.detailMaxLength": 60,
-	"suggest.noselect": true,
-	"suggest.enablePreselect": false,
+	"suggest.noselect": false,
+	"suggest.enablePreselect": true,
 	"suggest.triggerAfterInsertEnter": true,
 	"suggest.autoTrigger": "always",
 	"suggest.timeout": 5000,
@@ -94,7 +90,7 @@
 	"explorer.file.showHiddenFiles": true,
 	"explorer.icon.enableNerdfont": true,
 	"explorer.file.column.git.showIgnored": true,
-//	"explorer.keyMappingMode": "none",
+	//	"explorer.keyMappingMode": "none",
 	"explorer.buffer.showHiddenBuffers": false,
 	"explorer.keyMappings": {
 		"u": "nodePrev",
