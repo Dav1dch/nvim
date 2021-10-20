@@ -8,30 +8,70 @@ Plug 'luochen1990/rainbow'
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-surround'
 Plug 'preservim/nerdcommenter'
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " customize
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'theniceboy/vim-deus'
-Plug 'nathanaelkane/vim-indent-guides'
+Plug 'adrian5/oceanic-next-vim'
+Plug 'glepnir/oceanic-material'
+"Plug 'nathanaelkane/vim-indent-guides'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'mhinz/vim-startify' "startify
 Plug 'romgrk/barbar.nvim'
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 
 call plug#end()
 
+set ts=4
+set sw=4
+
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-colorscheme deus
+let g:oceanic_material_allow_underline=1
+let g:oceanic_bold = 1
+colorscheme dracula
 let g:mapleader="`"
 
 " ===
 " === rainbow
 " ===
-let g:rainbow_active = 1
+"let g:rainbow_active = 1
 
 " prettier
 "command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nnoremap <C-e> :CocCommand explorer<CR>
+nnoremap <F8> :Vista!! <CR>
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
+EOF
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  rainbow = {
+    enable = true,
+    extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+    max_file_lines = nil, -- Do not enable for files with more than n lines, int
+    -- colors = {}, -- table of hex strings
+    -- termcolors = {} -- table of colour name strings
+  }
+}
+EOF
 
 
 autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | execute "normal! g'\"" | endif
@@ -49,12 +89,13 @@ lua <<EOF
 require('lualine').setup{
 options = {
 	icons_enabled = true,
-	theme = 'everforest'
+	theme = 'dracula'
 				 }
 
 	}
 EOF
 
+	"theme = 'everforest'
 
 " Find files using Telescope command-line sugar.
 nnoremap <c-f> <cmd>Telescope find_files<cr>
@@ -124,6 +165,7 @@ noremap <c-right> :vertical resize+5<CR>
 " == vim-indent-guide
 " ==
 let g:indent_guides_enable_on_vim_startup = 2
+let g:indent_guides_start_level=2
 let g:indent_guides_guide_size = 1
 hi IndentGuidesOdd  ctermbg=black
 hi IndentGuidesEven ctermbg=darkgrey
