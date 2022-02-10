@@ -18,11 +18,12 @@ Plug 'p00f/nvim-ts-rainbow'
 Plug 'theniceboy/vim-deus'
 Plug 'adrian5/oceanic-next-vim'
 Plug 'glepnir/oceanic-material'
-"Plug 'nathanaelkane/vim-indent-guides'
+Plug 'nathanaelkane/vim-indent-guides'
 Plug 'hoob3rt/lualine.nvim'
 Plug 'mhinz/vim-startify' "startify
 Plug 'romgrk/barbar.nvim'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'kyoz/purify', { 'rtp': 'vim' }
 
 
 call plug#end()
@@ -31,9 +32,7 @@ set ts=4
 set sw=4
 
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-let g:oceanic_material_allow_underline=1
-let g:oceanic_bold = 1
-colorscheme dracula
+colorscheme purify 
 let g:mapleader="`"
 
 " ===
@@ -89,7 +88,7 @@ lua <<EOF
 require('lualine').setup{
 options = {
 	icons_enabled = true,
-	theme = 'dracula'
+	theme = 'onedark'
 				 }
 
 	}
@@ -131,7 +130,7 @@ set clipboard=unnamedplus
 set autochdir
 set cinoptions=g0,:0,N-s.(0)
 " set ttyfast
-set signcolumn="yes"
+"set signcolumn="yes"
 
 
 " search
@@ -172,10 +171,24 @@ hi IndentGuidesEven ctermbg=darkgrey
 
 
 
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" coc
-inoremap <silent><expr> <tab> pumvisible() ? coc#_select_confirm()
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
 
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
@@ -227,7 +240,6 @@ let g:coc_global_extensions = [
 			\ 'coc-lists',
 			\ 'coc-prettier',
 			\ 'coc-pyright',
-			\ 'coc-python',
 			\ 'coc-snippets',
 			\ 'coc-translator',
 			\ 'coc-vimlsp',
@@ -235,9 +247,39 @@ let g:coc_global_extensions = [
 			\ 'coc-java',
 			\ 'coc-go',
 			\ 'coc-css',
+			\ 'coc-snippets',
+			\ 'coc-ccls',
 			\ 'coc-cmake',
 			\ 'coc-import-cost',
-			\ 'coc-clangd',
 			\ 'coc-yank']
 
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
 
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+" Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
