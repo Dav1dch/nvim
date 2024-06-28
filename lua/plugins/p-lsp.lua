@@ -4,7 +4,7 @@ return {
     event = "LazyFile",
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-      { "folke/neodev.nvim", opts = {} },
+      { "folke/lazydev.nvim", opts = {} },
       "mason.nvim",
       "p00f/clangd_extensions.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -61,7 +61,7 @@ return {
           timeout_ms = nil,
         },
         -- LSP Server Settings
-        ---@type lspconfig.options
+        -- -@type lspconfig.options
         servers = {
           clangd = {
             keys = {
@@ -107,6 +107,7 @@ return {
             ---@type LazyKeysSpec[]
             -- keys = {},
             settings = {
+              black = {},
               Lua = {
                 workspace = {
                   checkThirdParty = false,

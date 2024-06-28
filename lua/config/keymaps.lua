@@ -20,6 +20,10 @@ vim.keymap.set(
   ":lua require('telescope.builtin').find_files({ search_dirs = vim.fn.systemlist('git rev-parse --show-toplevel')})<cr>"
 )
 vim.keymap.set("n", "<c-g>", builtin.live_grep, {})
+vim.keymap.set("n", "<A-j>", "<CR>", {})
+vim.keymap.set("n", "<A-k>", "<CR>", {})
+vim.keymap.set("n", "<A-J>", "<CR>", {})
+vim.keymap.set("n", "<A-K>", "<CR>", {})
 vim.keymap.set("n", "<c-b>", builtin.buffers, {})
 vim.keymap.set("n", "<c-h>", builtin.help_tags, {})
 vim.keymap.set("n", "gih", ":lua vim.lsp.inlay_hint.enable(true)<CR>", {})
